@@ -1,0 +1,19 @@
+
+.gh-logo {
+    height: 2.7rem;
+    width: auto;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer;
+}
+
+a:hover .gh-logo {
+    filter: brightness(4);
+}
+
+/* Mobile media query */
+@media screen and (max-width: 600px) {
+    .navbar-collapse, .gh-logo {
+        display: none;
+    }
+}

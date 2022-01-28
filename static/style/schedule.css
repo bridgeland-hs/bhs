@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+* {
+    cursor: default;
+}
+
+#alerts {
+    width: 25vw;
+    position: fixed;
+    top: 4em;
+    right: 2em;
+    z-index: 100000;
+}
+
+#alerts * {
+    transition: all 250ms linear;
+}
+
+#alerts .alert .btn-close {
+    display: none;
+}
+
+#alerts .alert:hover .btn-close {
+    display: inline;
+}
+
+#alerts .alert:hover:not(.yeet) {
+    transform: scale(.98);
+    cursor: pointer;
+}
+
+#alerts .yeet {
+    transform: scale(0);
+}
+
+body {
+    overflow-y: hidden;
+}
+
+.hide {
+    display: none;
+}
+
+.hide-text {
+    color: transparent !important;
+    text-shadow: none !important;
+}
+
+img#schedule-img {
+    filter: invert(1) grayscale(1);
+    max-height: 50vh;
+    max-width: 90vw;
+    border-radius: 1em;
+}
+
+.settings {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--bs-primary);
+    border-radius: 1em;
+    min-width: 25%;
+    background: #000a;
+    padding: 2em;
+}
+
+.output-text {
+    color: #acacac;
+}
+
+small {
+    font-size: 1.2rem;
+}
+
+.scroll-height {
+    height: 0;
+}
+
+.progress {
+    border-right: 1px solid var(--bs-info);
+    border-top: 1px solid #fff3 !important;
+    border-bottom: 1px solid #fff3 !important;
+}
+
+#progress-day {
+    border-bottom: none !important;
+}
+
+.progress-rounded {
+    border-top-right-radius: .5em;
+    border-bottom-right-radius: .5em;
+}
+
+.progress-bar-complete {
+    border-right: 1px solid var(--bs-info);
+}
+
+.progress {
+    border-radius: 0;
+    border: none;
+}
+
+.progress-bar-filler {
+    border-right: 1px solid #fff3 !important;
+}
+
+.bg-none {
+    background: none;
+}
+
+.container {
+    min-height: 80vh;
+}
+
+#tray {
+    background: #000a;
+    border-top: 1px solid var(--bs-primary);
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+}
+
+#tray button, #tray a, #tray select {
+    margin: 1em 0.5em;
+}
+
+.time {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.clock {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bolder;
+}
+
+.glow {
+    color: #0f0;
+    text-shadow: 0 0 20px #0f0a, 0 0 30px #0f08;
+
+}
+
+.glow-strong {
+    color: #0f0;
+    text-shadow: 0 0 20px #0f0, 0 0 30px #0f08, 0 0 40px #0f08, 0 0 50px #0f08;
+}
+
+.subtitle {
+    margin-top: .75em;
+}
+
+img {
+    max-height: 100%;
+}
+
+
+/* Mobile media query */
+@media screen and (max-width: 600px) {
+    #settings {
+        width: 100%
+    }
+
+    .scroll-height {
+        height: 10vh;
+    }
+
+    body {
+        overflow-y: scroll;
+    }
+
+    #alerts {
+        width: 90vw;
+        left: 50vw;
+        transform: translateX(-50%);
+    }
+}
