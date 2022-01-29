@@ -43,14 +43,14 @@
         <h2 id="clock" class="clock text-center w-100 subtitle glow{$local.clock ? '' : ' hide-text'}">{time}</h2>
     </div>
 
-    <Alerts/>
+<!--   Temp disabled until I can get working: <Alerts/>-->
 
     <div class="container">
 
         <div class="row align-items-center">
             <div class="col text-center" id="schedule">
                 <Schedule bind:runSettings={runSettings} bind:selectedSchedule={selectedSchedule} bind:periods={periods}/>
-            </div> <!-- Schedule Info -->
+            </div>
 
             <div class="col text-center">
                 <img id="schedule-img" src="/img/schedule.jpg" alt="Schedule">

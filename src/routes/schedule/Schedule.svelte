@@ -1,10 +1,9 @@
 <script lang="ts">
     import Period from './Period';
     import { formatTime, titleCase } from './util';
-    import { todaySchedule } from './schedule';
+    import { surroundingPeriods, todaySchedule } from './schedule';
     import { local } from './store-localstorage';
 
-    // export let local = get();
     export let runSettings: null | { schedule: string };
     export let selectedSchedule = todaySchedule();
 
@@ -14,12 +13,12 @@
     export let periods: { prev: Period; current: Period; next: Period } = { prev: null, current: null, next: null };
 
     setInterval(() => {
-        // periods = surroundingPeriods(selectedSchedule, local.lunch);
-        periods = { // Used for dev testing
-            prev: null,
-            current: new Period('test2', '20:06', '21:00'),
-            next: new Period('test1', '21:10', '22:00'),
-        };
+        periods = surroundingPeriods(selectedSchedule, $local.lunch);
+        // periods = { // Used for dev testing
+        //     prev: null,
+        //     current: new Period('test2', '20:06', '21:00'),
+        //     next: new Period('test1', '21:10', '22:00'),
+        // };
 
         const end = periods.current?.timeLeft();
         timeLeft = end < 0 ? `${end}` : formatTime(end);
@@ -32,7 +31,7 @@
 
 
 <svelte:head>
-    {#if periods.current}
+    {#if periods?.current}
         <title>{!Number.isNaN(+periods.current.name) ? `Period ${ periods.current.name }` : titleCase(periods.current.name)}
             | {timeLeft}</title>
     {/if}
@@ -40,7 +39,7 @@
 
 <main>
 
-    {#if periods.current || periods.next}
+    {#if periods?.current || periods?.next}
         {#if periods.current}
             <h2 class="subtitle">Current Period:</h2>
             <h3 class="output-text">{titleCase(periods.current.name)}</h3>

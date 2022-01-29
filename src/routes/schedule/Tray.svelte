@@ -1,25 +1,32 @@
 <script lang="ts">
-	import { formatTime, weekDays } from './util';
+    import { formatTime, weekDays } from './util';
 
-	export let runSettings = {};
+    export let runSettings = {};
 
-	const nextBreak = {
-		name: 'Spring break',
-		// date: new Date(2022, 2, 11, 14, 50, 0, 0),
-		date: new Date(2022, 0, 29, 14, 50, 0, 0),
-		days: 0,
-		unit: 'days',
-		time: '',
-	};
+    const nextBreak: {
+        name: string,
+        date: Date,
+        days: number,
+        unit: string,
+        time: string | boolean,
+    }
+        = {
+        name: 'Spring break',
+        date: new Date(2022, 2, 11, 14, 50, 0, 0),
+        // date: new Date(2022, 0, 29, 14, 50, 0, 0),
+        days: 0,
+        unit: 'days',
+        time: false,
+    };
 
-	setInterval(() => {
-		nextBreak.days = weekDays(new Date(), nextBreak.date);
-		nextBreak.unit = nextBreak.days !== 1 ? 'days' : 'day';
-		if (nextBreak.days <= 1) {
-			nextBreak.time = formatTime(Math.floor((nextBreak.date.valueOf() - new Date().valueOf()) / 1000));
-		}
+    setInterval(() => {
+        nextBreak.days = weekDays(new Date(), nextBreak.date);
+        nextBreak.unit = nextBreak.days !== 1 ? 'days' : 'day';
+        if (nextBreak.days <= 1) {
+            nextBreak.time = formatTime(Math.floor((nextBreak.date.valueOf() - new Date().valueOf()) / 1000));
+        }
 
-	}, 200);
+    }, 200);
 
 </script>
 
