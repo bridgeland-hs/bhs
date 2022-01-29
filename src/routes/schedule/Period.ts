@@ -21,7 +21,6 @@ export default class Period {
     }
 
     /**
-     * @param date
      * @return The amount of *seconds* until the period is over
      */
     public timeLeft(date: Date = new Date()): number {
@@ -32,6 +31,26 @@ export default class Period {
         const current = date.valueOf() / 1000;
 
         return Math.floor(endSeconds - current);
+    }
+
+    /**
+     * @return The amount of *seconds* until the period is over
+     */
+    public timeUntil(date: Date = new Date()): number {
+        if (date > this.end) {
+            return -1;
+        }
+        const startSeconds = this.start.valueOf() / 1000;
+        const current = date.valueOf() / 1000;
+
+        return Math.floor(startSeconds - current);
+    }
+
+    /**
+     * @return Duration of the period in *seconds*
+     */
+    public duration() {
+        return Math.floor((this.end.valueOf() - this.start.valueOf()) / 1000);
     }
 
     private static getDate(s: string): Date {

@@ -10,24 +10,28 @@
 
     import { onMount } from 'svelte';
     import { defData } from './localstorage';
+    import { toTime } from '../../util';
 
     let runSettings = {
         showSettings: false,
         showClock: false,
     };
 
-    let put, get, update;
+    let update;
     let local = defData;
     onMount(() => {
-        put = (key: string, value: any) => window.localStorage.setItem(key, JSON.stringify(value));
-        get = (key: string) => JSON.parse(window.localStorage.getItem(key));
-
-        local = get('schedule') || local;
+        local = JSON.parse(window.localStorage.getItem('schedule')) || local;
 
         update = () => {
-            put('schedule', local);
+            window.localStorage.setItem('schedule', JSON.stringify(local));
         };
     });
+
+    let time = '00:00:00';
+    setInterval(() => {
+        time = toTime(!local.hr24, new Date(), true);
+    }, 500);
+
     $: {
         local; // ? Required for some reason :P
         update && update();
@@ -45,7 +49,7 @@
 
 
     <div class="text-center w-100 py-3 my-2" id="header">
-        <h2 id="clock" class="clock text-center w-100 subtitle glow{local.clock ? '' : ' hide-text'}">(These times are not accurate :P)</h2>
+        <h2 id="clock" class="clock text-center w-100 subtitle glow{local.clock ? '' : ' hide-text'}">{time}</h2>
     </div>
 
     <div id="alerts"></div>
@@ -54,7 +58,7 @@
 
         <div class="row align-items-center">
             <div class="col text-center" id="schedule">
-                <Schedule bind:local={local}/>
+                <Schedule bind:local={local} bind:runSettings={runSettings}/>
             </div> <!-- Schedule Info -->
 
             <div class="col text-center">
@@ -66,7 +70,7 @@
     </div>
 
     <div id="tray" class="navbar p-0">
-        <Tray bind:runSettings="{runSettings}"/>
+        <Tray bind:runSettings={runSettings}/>
     </div>
 
     <div class="scroll-height"></div> <!-- Add height when in mobile view, so that one can scroll -->
@@ -74,5 +78,3 @@
         <Settings bind:local={local}/>
     </form>
 </main>
-
-<!--<script src="js/schedule/index.ts" lang="ts"></script>-->
