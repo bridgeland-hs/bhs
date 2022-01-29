@@ -49,7 +49,7 @@
 
         <div class="row align-items-center">
             <div class="col text-center" id="schedule">
-                <Schedule bind:runSettings={runSettings} bind:selectedSchedule={selectedSchedule} bind:periods={periods}/>
+                <Schedule bind:selectedSchedule={selectedSchedule} bind:periods={periods}/>
             </div>
 
             <div class="col text-center">

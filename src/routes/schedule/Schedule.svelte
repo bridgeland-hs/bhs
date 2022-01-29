@@ -4,7 +4,6 @@
     import { surroundingPeriods, todaySchedule } from './schedule';
     import { local } from './store-localstorage';
 
-    export let runSettings: null | { schedule: string };
     export let selectedSchedule = todaySchedule();
 
     let untilNext = '-';
@@ -13,7 +12,7 @@
     export let periods: { prev: Period; current: Period; next: Period } = { prev: null, current: null, next: null };
 
     setInterval(() => {
-        periods = surroundingPeriods(selectedSchedule, $local.lunch);
+        periods = surroundingPeriods(selectedSchedule, $local.lunch) ?? { prev: null, current: null, next: null };
         // periods = { // Used for dev testing
         //     prev: null,
         //     current: new Period('test2', '20:06', '21:00'),
