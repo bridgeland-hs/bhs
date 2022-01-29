@@ -1,4 +1,4 @@
-import { toTime } from '../../util';
+import { toTime } from './util';
 
 export default class Period {
 

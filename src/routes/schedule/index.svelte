@@ -8,12 +8,13 @@
     import Schedule from './Schedule.svelte';
     import Tray from './Tray.svelte';
     import PeriodProgress from './PeriodProgress.svelte';
+    import DayProgress from './DayProgress.svelte';
+    import Alerts from './Alerts.svelte';
 
-    import { onMount } from 'svelte';
-    import { defData } from './localstorage';
-    import { toTime } from '../../util';
+    import { toTime } from './util';
     import { todaySchedule } from './schedule';
     import Period from './Period';
+    import { local } from './store-localstorage';
 
     let periods: { prev: Period; current: Period; next: Period } = {
         prev: null, current: null, next: null
@@ -23,52 +24,36 @@
     };
 
     let selectedSchedule = todaySchedule();
-    let update;
-    let local = defData;
-    onMount(() => {
-        local = JSON.parse(window.localStorage.getItem('schedule')) || local;
-
-        update = () => {
-            window.localStorage.setItem('schedule', JSON.stringify(local));
-        };
-    });
+    // let local = get();
 
     let time = '';
     setInterval(() => {
-        time = toTime(!local.hr24, new Date(), true);
+        time = toTime(!$local.hr24, new Date(), true);
     }, 200);
-
-    $: {
-        local; // ? Required for some reason :P
-        update && update();
-    }
 
 </script>
 
 
 <main>
-    <div class="progress" id="progress-day"></div>
-    <div class="progress" id="progressbar-area">
-        <PeriodProgress bind:periods={periods}/>
-    </div>
+<!--    <DayProgress periods={periods}/>-->
+    <PeriodProgress bind:periods={periods}/>
 
 
     <div class="text-center w-100 py-3 my-2" id="header">
-        <h2 id="clock" class="clock text-center w-100 subtitle glow{local.clock ? '' : ' hide-text'}">{time}</h2>
+        <h2 id="clock" class="clock text-center w-100 subtitle glow{$local.clock ? '' : ' hide-text'}">{time}</h2>
     </div>
 
-    <div id="alerts"></div>
+    <Alerts/>
 
     <div class="container">
 
         <div class="row align-items-center">
             <div class="col text-center" id="schedule">
-                <Schedule bind:local={local} bind:runSettings={runSettings} bind:selectedSchedule={selectedSchedule}
-                          bind:periods={periods}/>
+                <Schedule bind:runSettings={runSettings} bind:selectedSchedule={selectedSchedule} bind:periods={periods}/>
             </div> <!-- Schedule Info -->
 
             <div class="col text-center">
-                <img id="schedule-img" src="../image/Default_Schedule.jpg" alt="Schedule">
+                <img id="schedule-img" src="/img/schedule.jpg" alt="Schedule">
             </div>
 
         </div>
@@ -81,6 +66,6 @@
 
     <div class="scroll-height"></div> <!-- Add height when in mobile view, so that one can scroll -->
     <form class="settings{runSettings.showSettings ? '' : ' hide'}" id="settings">
-        <Settings bind:local={local} bind:selectedSchedule={selectedSchedule}/>
+        <Settings bind:selectedSchedule={selectedSchedule}/>
     </form>
 </main>

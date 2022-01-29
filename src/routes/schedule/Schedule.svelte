@@ -1,10 +1,10 @@
 <script lang="ts">
     import Period from './Period';
-    import { formatTime, titleCase } from '../../util';
-    import type { LocalData } from './localstorage';
-    import { surroundingPeriods, todaySchedule } from './schedule';
+    import { formatTime, titleCase } from './util';
+    import { todaySchedule } from './schedule';
+    import { local } from './store-localstorage';
 
-    export let local: LocalData;
+    // export let local = get();
     export let runSettings: null | { schedule: string };
     export let selectedSchedule = todaySchedule();
 
@@ -17,8 +17,8 @@
         // periods = surroundingPeriods(selectedSchedule, local.lunch);
         periods = { // Used for dev testing
             prev: null,
-            current: new Period('test2', '19:06', '20:00'),
-            next: new Period('test1', '20:10', '21:00'),
+            current: new Period('test2', '20:06', '21:00'),
+            next: new Period('test1', '21:10', '22:00'),
         };
 
         const end = periods.current?.timeLeft();
@@ -45,7 +45,7 @@
             <h2 class="subtitle">Current Period:</h2>
             <h3 class="output-text">{titleCase(periods.current.name)}</h3>
             <h2 class="subtitle">Ends at:</h2>
-            <h3 class="output-text">{periods.current.endTime(!local.hr24)} ({timeLeft})</h3>
+            <h3 class="output-text">{periods.current.endTime(!$local.hr24)} ({timeLeft})</h3>
         {:else if periods.prev}
             <h2 className="subtitle">Current Period:</h2>
             <h3 className="output-text">Passing</h3>
@@ -54,7 +54,7 @@
             <h2 class="subtitle">Next Period:</h2>
             <h3 class="output-text">{titleCase(periods.next.name)}</h3>
             <h2 class="subtitle">Starts at:</h2>
-            <h3 class="output-text">{periods.next.startTime(!local.hr24)} ({untilNext})</h3>
+            <h3 class="output-text">{periods.next.startTime(!$local.hr24)} ({untilNext})</h3>
         {/if}
     {:else}
         <h1>No School Right Now!</h1>

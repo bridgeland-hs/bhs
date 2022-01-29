@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatTime, weekDays } from '../../util';
+	import { formatTime, weekDays } from './util';
 
 	export let runSettings = {};
 
