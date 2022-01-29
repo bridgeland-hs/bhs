@@ -2,34 +2,31 @@
     import Period from './Period';
     import { formatTime, titleCase } from '../../util';
     import type { LocalData } from './localstorage';
-    import { surroundingPeriods } from './schedule';
+    import { surroundingPeriods, todaySchedule } from './schedule';
 
     export let local: LocalData;
-    export let runSettings: any;
-
-    let currentDate = new Date();
+    export let runSettings: null | { schedule: string };
+    export let selectedSchedule = todaySchedule();
 
     let untilNext = '-';
     let timeLeft = '-';
 
-    let periods: { prev: Period; current: Period; next: Period } = {
-        prev: null, current: null, next: null
-    };
+    export let periods: { prev: Period; current: Period; next: Period } = { prev: null, current: null, next: null };
 
     setInterval(() => {
-        periods = surroundingPeriods(runSettings.schedule, local.lunch, new Date());
-        // periods = { // Used for dev testing
-        //     prev: null,
-        //     current: new Period('test1', '18:00', '19:00'),
-        //     next: new Period('test2', '19:06', '20:00'),
-        // };
+        // periods = surroundingPeriods(selectedSchedule, local.lunch);
+        periods = { // Used for dev testing
+            prev: null,
+            current: new Period('test2', '19:06', '20:00'),
+            next: new Period('test1', '20:10', '21:00'),
+        };
 
         const end = periods.current?.timeLeft();
         timeLeft = end < 0 ? `${end}` : formatTime(end);
 
         const next = periods.next?.timeUntil();
         untilNext = next < 0 ? `${next}` : formatTime(next);
-    }, 500);
+    }, 200);
 
 </script>
 
@@ -49,6 +46,9 @@
             <h3 class="output-text">{titleCase(periods.current.name)}</h3>
             <h2 class="subtitle">Ends at:</h2>
             <h3 class="output-text">{periods.current.endTime(!local.hr24)} ({timeLeft})</h3>
+        {:else if periods.prev}
+            <h2 className="subtitle">Current Period:</h2>
+            <h3 className="output-text">Passing</h3>
         {/if}
         {#if periods.next}
             <h2 class="subtitle">Next Period:</h2>

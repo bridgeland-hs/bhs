@@ -5,7 +5,7 @@
 
     export let local;
 
-    let selectedSchedule = todaySchedule();
+    export let selectedSchedule = todaySchedule();
 
     const schedules = load();
 

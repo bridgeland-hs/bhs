@@ -20,13 +20,14 @@ export const todaySchedule = () => {
 
 const schedules = load();
 
-export const surroundingPeriods = (schedule: string, lunch: string, date: Date): { prev: Period, current: Period, next: Period } | null => {
+export const surroundingPeriods = (schedule: string, lunch: string, date: Date = new Date()): { prev: Period, current: Period, next: Period } | null => {
     const currSchedule = schedules.get(schedule);
 
     if (!currSchedule) return null;
 
     const periods: Period[] = Object.entries(currSchedule)
-        .filter(([key, value]) => key.endsWith('lunch') || key.endsWith(lunch))
+        .filter(([key,]) => key.endsWith('lunch') || key.endsWith(lunch))
+        .map(([, v]) => v)
         .flatMap(Object.values);
 
     const out: { prev: Period, current: Period, next: Period } = {
@@ -50,6 +51,10 @@ export const surroundingPeriods = (schedule: string, lunch: string, date: Date):
             return out;
         }
 
+    }
+
+    if(out.current?.end < date) {
+        out.current = null;
     }
 
     return out;

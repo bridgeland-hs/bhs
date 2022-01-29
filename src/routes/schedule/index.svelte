@@ -7,16 +7,22 @@
     import Settings from './Settings.svelte';
     import Schedule from './Schedule.svelte';
     import Tray from './Tray.svelte';
+    import PeriodProgress from './PeriodProgress.svelte';
 
     import { onMount } from 'svelte';
     import { defData } from './localstorage';
     import { toTime } from '../../util';
+    import { todaySchedule } from './schedule';
+    import Period from './Period';
 
+    let periods: { prev: Period; current: Period; next: Period } = {
+        prev: null, current: null, next: null
+    };
     let runSettings = {
         showSettings: false,
-        showClock: false,
     };
 
+    let selectedSchedule = todaySchedule();
     let update;
     let local = defData;
     onMount(() => {
@@ -27,10 +33,10 @@
         };
     });
 
-    let time = '00:00:00';
+    let time = '';
     setInterval(() => {
         time = toTime(!local.hr24, new Date(), true);
-    }, 500);
+    }, 200);
 
     $: {
         local; // ? Required for some reason :P
@@ -43,8 +49,7 @@
 <main>
     <div class="progress" id="progress-day"></div>
     <div class="progress" id="progressbar-area">
-        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated progress-rounded" id="progressbar"
-             style="width: 0;"></div>
+        <PeriodProgress bind:periods={periods}/>
     </div>
 
 
@@ -58,7 +63,8 @@
 
         <div class="row align-items-center">
             <div class="col text-center" id="schedule">
-                <Schedule bind:local={local} bind:runSettings={runSettings}/>
+                <Schedule bind:local={local} bind:runSettings={runSettings} bind:selectedSchedule={selectedSchedule}
+                          bind:periods={periods}/>
             </div> <!-- Schedule Info -->
 
             <div class="col text-center">
@@ -75,6 +81,6 @@
 
     <div class="scroll-height"></div> <!-- Add height when in mobile view, so that one can scroll -->
     <form class="settings{runSettings.showSettings ? '' : ' hide'}" id="settings">
-        <Settings bind:local={local}/>
+        <Settings bind:local={local} bind:selectedSchedule={selectedSchedule}/>
     </form>
 </main>
