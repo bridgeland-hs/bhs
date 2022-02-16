@@ -28,15 +28,15 @@
 
 </script>
 
-
 <svelte:head>
+
+</svelte:head>
+
+<main>
     {#if periods?.current}
         <title>{!Number.isNaN(+periods.current.name) ? `Period ${ periods.current.name }` : titleCase(periods.current.name)}
             | {timeLeft}</title>
     {/if}
-</svelte:head>
-
-<main>
 
     {#if periods?.current || periods?.next}
         {#if periods.current}
@@ -45,8 +45,8 @@
             <h2 class="subtitle">Ends at:</h2>
             <h3 class="output-text">{periods.current.endTime(!$local.hr24)} ({timeLeft})</h3>
         {:else if periods.prev}
-            <h2 className="subtitle">Current Period:</h2>
-            <h3 className="output-text">Passing</h3>
+            <h2 class="subtitle">Current Period:</h2>
+            <h3 class="output-text">Passing</h3>
         {/if}
         {#if periods.next}
             <h2 class="subtitle">Next Period:</h2>

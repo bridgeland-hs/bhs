@@ -35,27 +35,22 @@ export const surroundingPeriods = (schedule: string, lunch: string, date: Date =
         current: null,
         next: null,
     };
-
-    let i = 0;
-    for (i; i < periods.length; i++) {
-
-        out.prev = periods[i - 1] || null;
-        out.current = periods[i] || null;
-
-        if (out.current?.start > date) {
-            out.next = out.current;
-            out.current = null;
+    const now = Date.now().valueOf();
+    let i;
+    for (i = 0; i < periods.length; ++i) {
+        if (periods[i].end.valueOf() >= now) {
+            break;
         }
-
-        if (out.prev?.end < date && out.next?.start > date) {
-            return out;
-        }
-
     }
-
-    if(out.current?.end < date) {
+    if (periods[i].start.valueOf() > now) {
+        out.prev = periods[i - 1];
         out.current = null;
+        out.next = periods[i];
+        return out;
     }
+    out.prev = periods[i - 1];
+    out.current = periods[i];
+    out.next = periods[i + 1];
 
     return out;
 };

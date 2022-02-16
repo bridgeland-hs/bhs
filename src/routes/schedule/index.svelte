@@ -1,6 +1,5 @@
 <svelte:head>
     <link rel="stylesheet" href="style/schedule.css">
-    <title>BHS Schedule</title>
 </svelte:head>
 
 <script lang="ts">

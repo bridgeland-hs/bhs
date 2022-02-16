@@ -1,15 +1,29 @@
+import calendar from '../json/calendar.json';
+
 export function titleCase(str: string) {
     return str.split('_')
-        .map((w) => w[0].toUpperCase() + w.substr(1))
+        .map((w) => w[0].toUpperCase() + w.substring(1))
         .join(' ');
 }
 
 export function weekDays(startDate: Date, endDate: Date) {
     let count = 0;
-    const curDate = new Date(startDate.getTime());
-    while (curDate <= endDate) {
+    for (
+        const curDate = new Date(startDate.getTime());
+        curDate <= endDate;
+        curDate.setDate(curDate.getDate() + 1)
+    ) {
         const dayOfWeek = curDate.getDay();
-        if (dayOfWeek !== 0 && dayOfWeek !== 6) count++;
+        const [dateStr,] = curDate.toISOString().split('T');
+        if (dayOfWeek !== 0
+            && dayOfWeek !== 6
+            && !(calendar.student_staff_holiday.includes(dateStr)
+                || calendar.teacher_work_day.includes(dateStr)
+                || calendar.professional_day.includes(dateStr)
+            )
+        ) {
+            count++;
+        }
         curDate.setDate(curDate.getDate() + 1);
     }
     return count;

@@ -38,7 +38,7 @@
         class="glow-strong clock">{nextBreak.time || nextBreak.days}</span> {nextBreak.time ? '' : nextBreak.unit}!
 </div>
 <div class="text-end">
-    <a href="../image/2022-Calendar.pdf" class="btn btn-outline-light" target="_blank">🗓️ Calendar</a>
+    <a href="../img/2022-Calendar.pdf" class="btn btn-outline-light" target="_blank">🗓️ Calendar</a>
     <button
             class="btn btn-outline-light"
             title="Toggle Settings Panel"
